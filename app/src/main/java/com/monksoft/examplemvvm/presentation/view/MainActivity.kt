@@ -5,11 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.monksoft.examplemvvm.databinding.ActivityMainBinding
 import com.monksoft.examplemvvm.presentation.viewModel.QuoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity @Inject constructor() : AppCompatActivity()  {
 
     private lateinit var binding : ActivityMainBinding
     private val quoteViewModel : QuoteViewModel by viewModels()
@@ -33,10 +35,7 @@ class MainActivity : AppCompatActivity() {
             binding.progress.isVisible = status
         })
 
-        setOnClickListenerFunctions()
-    }
-
-    private fun setOnClickListenerFunctions(){
-        binding.viewContainer.setOnClickListener { quoteViewModel.randomQuote() }
+        binding.viewContainer.setOnClickListener {
+            quoteViewModel.randomQuote() }
     }
 }
