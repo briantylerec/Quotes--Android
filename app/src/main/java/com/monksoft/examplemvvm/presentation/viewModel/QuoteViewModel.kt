@@ -3,9 +3,9 @@ package com.monksoft.examplemvvm.presentation.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.monksoft.examplemvvm.data.model.QuoteModel
 import com.monksoft.examplemvvm.domain.GetQuotesUseCase
 import com.monksoft.examplemvvm.domain.GetRandomQuoteUseCase
+import com.monksoft.examplemvvm.domain.model.Quote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class QuoteViewModel @Inject constructor (
     private val getRandomQuoteUseCase : GetRandomQuoteUseCase) : ViewModel() {
 
     //encapsular el modelo en live data, metido en mutable porque el valor de QuoteModel va a ir cambiando
-    val quoteModel = MutableLiveData<QuoteModel>()
+    val quoteModel = MutableLiveData<Quote>()
     val isLoading = MutableLiveData<Boolean>()
 
     fun onCreate(){
@@ -33,9 +33,11 @@ class QuoteViewModel @Inject constructor (
     }
 
     fun randomQuote(){
-        isLoading.postValue(true)
-        val quote = getRandomQuoteUseCase()
-        if(quote!=null) quoteModel.postValue(quote)
-        isLoading.postValue(false)
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val quote = getRandomQuoteUseCase()
+            if (quote != null) quoteModel.postValue(quote)//para como error pero esta bien
+            isLoading.postValue(false)
+        }
     }
 }

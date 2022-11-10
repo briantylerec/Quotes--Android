@@ -1,6 +1,5 @@
 package com.monksoft.examplemvvm.data.network
 
-import com.monksoft.examplemvvm.core.RetrofitHelper
 import com.monksoft.examplemvvm.data.model.QuoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
